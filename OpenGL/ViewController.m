@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import <GLKit/GLKViewController.h>
 #import <GLKit/GLKit.h>
-@interface ViewController ()
+@interface ViewController ()<GLKViewDelegate, GLKViewControllerDelegate>
 
 @property (strong, nonatomic) EAGLContext *context;
 
@@ -40,10 +40,11 @@
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     [EAGLContext setCurrentContext:_context];
+    glEnable(GL_DEPTH_TEST);
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 0.0f);
+    self.effect.light0.diffuseColor = GLKVector4Make(0.0f, 1.0f, 0.0f, 1.0f);
     
     // 声明一个缓冲区的标识（GLuint类型）让OpenGL自动分配一个缓冲区并且返回这个标识的值.绑定这个缓冲区到当前“Context”.最后，将我们前面预先定义的顶点数据“squareVertexData”复制进这个缓冲区中。
     // 注：参数“GL_STATIC_DRAW”，它表示此缓冲区内容只能被修改一次，但可以无限次读取。
@@ -57,14 +58,18 @@
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 4 * 8, (char *)NULL + 0);
     
     glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_TRUE, 4*8, (char*)NULL + 12 );
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 4*8, (char*)NULL + 12 );
     
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4*8, (char*)NULL+24);
-    
+
 }
 
 - (void)update {
+    
+}
+
+- (void)glkViewControllerUpdate:(GLKViewController *)controller {
     
 }
 
